@@ -21,7 +21,7 @@ public class MainViewModel extends BaseObservable {
         this.translationService = service;
     }
 
-    public void setInputText(String newText) {
+    public void setInputText(final String newText) {
         this.inputText = newText;
         notifyPropertyChanged(com.example.testautomationexample.BR.inputText);
 
@@ -30,7 +30,9 @@ public class MainViewModel extends BaseObservable {
         this.translationService.request(newText, new GoogleTranslationService.RequestHandler() {
             @Override
             public void onResponse(String response) {
-                setOutputText("In English: " + response);
+                if (newText.equals(inputText)) {
+                    setOutputText("In English: " + response);
+                }
             }
         });
     }
