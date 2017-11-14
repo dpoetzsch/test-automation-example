@@ -25,4 +25,30 @@ public class MainViewModelTest {
 
         assertEquals(subject.getOutputText(), "In English: TRANSLATED Hallo");
     }
+
+    @Test
+    public void setInputText_setsOutputTextToTranslationOfLastEnteredInput() throws Exception {
+        // this translate mock answers in the wrong order, something that might happen in a real
+        // world with a real network connection
+        MainViewModel subject = new MainViewModel(new MyTranslateService() {
+            String textBackup = null;
+            GoogleTranslationService.RequestHandler handlerBackup = null;
+
+            @Override
+            public void request(String text, GoogleTranslationService.RequestHandler handler) {
+                if (handlerBackup == null) {
+                    handlerBackup = handler;
+                    textBackup = text;
+                } else {
+                    handler.onResponse("TRANSLATED " + text);
+                    handlerBackup.onResponse("TRANSLATED " + textBackup);
+                }
+            }
+        });
+
+        subject.setInputText("Hallo");
+        subject.setInputText("Welt");
+
+        assertEquals(subject.getOutputText(), "In English: TRANSLATED Welt");
+    }
 }
