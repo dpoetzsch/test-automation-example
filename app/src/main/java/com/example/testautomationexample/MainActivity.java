@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.example.externalservice.GoogleTranslationService;
 
-import java.util.Timer;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -32,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable newText) {
                 outputField.setText(R.string.loading);
 
-                GoogleTranslationService.request(newText.toString(), "de", "en", new GoogleTranslationService.RequestHandler() {
+                GoogleTranslationService.request(newText.toString(), new GoogleTranslationService.RequestHandler() {
                     @Override
                     public void onResponse(String response) {
                         outputField.setText(getString(R.string.in_english, response));

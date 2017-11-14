@@ -12,7 +12,7 @@ import java.util.Random;
 public class GoogleTranslationService {
     private static final Random random = new Random();
 
-    public static void request(final String newText, String srcLanguage, String targetLanguage, final RequestHandler handler) {
+    public static void request(final String newText, final RequestHandler handler) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
