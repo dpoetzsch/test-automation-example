@@ -15,13 +15,19 @@ public class MainViewModel extends BaseObservable {
     private String inputText;
     private String outputText = "Enter text to see the translation!";
 
+    private MyTranslateService translationService;
+
+    public MainViewModel(MyTranslateService service) {
+        this.translationService = service;
+    }
+
     public void setInputText(String newText) {
         this.inputText = newText;
         notifyPropertyChanged(com.example.testautomationexample.BR.inputText);
 
         setOutputText("Loading...");
 
-        GoogleTranslationService.request(newText, new GoogleTranslationService.RequestHandler() {
+        this.translationService.request(newText, new GoogleTranslationService.RequestHandler() {
             @Override
             public void onResponse(String response) {
                 setOutputText("In English: " + response);
